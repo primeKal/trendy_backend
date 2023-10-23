@@ -12,8 +12,6 @@ import {
     ForeignKey,
   } from 'sequelize-typescript';
 import { User } from 'src/user/user.entity';
-// import { UserRole } from './entitites/user-role.entity';
-  // import { Socialmedia } from 'src/socialmedia/socialmedia.entity';
   
   const tableOptions = {
     tableName: 'roles',

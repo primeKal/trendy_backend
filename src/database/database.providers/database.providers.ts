@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
+import { ProductCategory, ProductCategoryProduct } from 'src/product-category/product.category.entity';
 import { Product } from 'src/product/product.entity';
 import { Role, UserRole,  } from 'src/role/role.entity';
-// import { Socialmedia } from 'src/socialmedia/socialmedia.entity';
 import { User } from 'src/user/user.entity';
 
 
@@ -21,8 +21,8 @@ export const databaseProviders = [
           ssl: true
         }
       });
-      sequelize.addModels([User,Product,Role, UserRole]);
-      await sequelize.sync();
+      sequelize.addModels([User,Role, UserRole,Product, ProductCategory,ProductCategoryProduct]);
+      await sequelize.sync({alter: true});
       return sequelize;
     },
   },

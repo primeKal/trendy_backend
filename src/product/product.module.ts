@@ -5,6 +5,7 @@ import { productProviders } from './product.provider';
 
 @Module({
   providers: [ProductService, ...productProviders],
-  controllers: [ProductController]
+  controllers: [ProductController],
+  exports: [ProductService]
 })
 export class ProductModule {}

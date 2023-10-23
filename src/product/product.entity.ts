@@ -10,7 +10,9 @@ import {
     HasMany,
     BelongsTo,
     ForeignKey,
+    BelongsToMany,
   } from 'sequelize-typescript';
+import { ProductCategory, ProductCategoryProduct } from 'src/product-category/product.category.entity';
 import { Role } from 'src/role/role.entity';
 import { User } from 'src/user/user.entity';
   // import { Socialmedia } from 'src/socialmedia/socialmedia.entity';
@@ -91,5 +93,8 @@ import { User } from 'src/user/user.entity';
     @BelongsTo(() => User)
     @ApiProperty({ type : User })
     user: User;
-  
+
+    @BelongsToMany(() => ProductCategory, () => ProductCategoryProduct)
+    @ApiProperty({ type: () => [ProductCategory] })
+    productCategories: Product[];
   }

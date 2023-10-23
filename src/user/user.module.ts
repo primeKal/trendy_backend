@@ -4,9 +4,10 @@ import { UserService } from './user.service';
 import { DatabaseModule } from 'src/database/database.module';
 import { userProviders } from './user.provider';
 import { JwtModule } from '@nestjs/jwt';
+import { RoleModule } from 'src/role/role.module';
 
 @Module({
-  imports: [DatabaseModule,   JwtModule.register({
+  imports: [DatabaseModule,RoleModule,   JwtModule.register({
     secret: "dmad,samda.,smda.,smda.,sdm.,samda.,sdm.,sa",
     privateKey:'sdlklkdsasalkdaslksa',
     signOptions: {expiresIn: "1d" }

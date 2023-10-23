@@ -6,12 +6,14 @@ import { EditUserDto } from './dto/editUserDto';
 // import { Socialmedia } from 'src/socialmedia/socialmedia.entity';
 import * as bcrypt from "bcrypt";
 import { JwtService } from '@nestjs/jwt';
+import { RoleService } from 'src/role/role.service';
 
 @Injectable()
 export class UserService {
     constructor(
         @Inject(USER_REPOSITORY) private readonly userRepository: typeof User,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private roleService: RoleService
       ) {} 
       async getAllUsers(): Promise<User[]> {
         return await this.userRepository.findAll<User>({
@@ -20,7 +22,16 @@ export class UserService {
       }
       async createUser(createUserDto): Promise<User> {
         createUserDto.password = await bcrypt.hash(createUserDto.password, 12);
-        return await this.userRepository.create<User>(createUserDto);
+        let newUser = await this.userRepository.create<User>(createUserDto);
+        let roles = await this.roleService.getRolesByIds(createUserDto.roleIds)
+        let flag = await newUser.$set('roles', roles);
+        console.log("Assign roles to user flag", flag)
+        let token = await this.generateToken({
+          id : newUser.id,
+        });
+        let toReturnUser: any = {...newUser.dataValues};
+        toReturnUser.token = token
+        return toReturnUser;
       }
       async getOneUserById(id:number): Promise<User>{
         return await this.userRepository.findOne( {

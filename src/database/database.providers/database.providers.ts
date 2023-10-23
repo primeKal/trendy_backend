@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import { Order } from 'src/order/order.entity';
 import { ProductCategory, ProductCategoryProduct } from 'src/product-category/product.category.entity';
 import { Product } from 'src/product/product.entity';
 import { Role, UserRole,  } from 'src/role/role.entity';
@@ -21,8 +22,8 @@ export const databaseProviders = [
           ssl: true
         }
       });
-      sequelize.addModels([User,Role, UserRole,Product, ProductCategory,ProductCategoryProduct]);
-      await sequelize.sync({alter: true});
+      sequelize.addModels([User,Role, UserRole,Product, ProductCategory,ProductCategoryProduct, Order]);
+      await sequelize.sync();
       return sequelize;
     },
   },

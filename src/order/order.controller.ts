@@ -15,7 +15,7 @@ export class OrderController {
       return this.orderService.getAllOrders();
     }
 
-    @Get()
+    @Get(':id')
     @ApiProperty()
     public async getAOrder(@Param('id') id: number): Promise<Order>{
       return this.orderService.getOneOrderById(id);

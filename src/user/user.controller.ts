@@ -21,48 +21,28 @@ export class UserController {
       return this.userService.getAllUsers();
     }
 
-    @Get()
+    @Get(':id')
     @ApiProperty()
     public async getAUser(@Param('id') id: number): Promise<User>{
       return this.userService.getOneUserById(id);
     }
 
+    @UseGuards(JwtAuthGurad)
     @Post()
     public async createUser(@Body() body: CreateUserDto): Promise<User> {
       return this.userService.createUser(body);
     }
 
+    @UseGuards(JwtAuthGurad)
     @Put()
     public async editUser(@Body() body: EditUserDto): Promise<User> {
 
       return this.userService.editUser(body);
     }
 
+    @UseGuards(JwtAuthGurad)
     @Delete()
     public async deleteUser(@Body() id): Promise<void>{
       return this.userService.deleteUser(id);
     }
-    //here is for login will create its own auth module for the future
-    // @Post("login")
-    // public async loginUser(@Body() loginUser: LoginUserDto, 
-    //                         @Res({passthrough: true}) response: Response): Promise<any>{
-    //   let user = await this.userService.findUserByEmail(loginUser.email)
-    //   if(!user){
-    //     throw new BadRequestException("Are you serious,please check again2"); 
-    //   }
-    //   if ( !await bcrypt.compare(loginUser.password,user.password)){
-    //     console.log("this is the result", await bcrypt.compare(user.password, loginUser.password))
-    //     throw new BadRequestException("Are you serious,please check again"); 
-    //   }
-    //   let token = await this.userService.generateToken({
-    //     id : user.id,
-    //   });
-    //   response.cookie( 'jwt', token, {httpOnly: true})
-
-    //   return {
-    //     "message": "Congrats",
-    //     "user": {...user.dataValues},
-    //     "token": token
-    //   };
-    // }
 }

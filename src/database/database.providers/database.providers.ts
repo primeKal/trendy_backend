@@ -23,7 +23,7 @@ export const databaseProviders = [
         }
       });
       sequelize.addModels([User,Role, UserRole,Product, ProductCategory,ProductCategoryProduct, Order]);
-      await sequelize.sync();
+      await sequelize.sync({alter: true});
       return sequelize;
     },
   },

@@ -15,7 +15,7 @@ import {
 import { User } from 'src/user/user.entity';
   
   const tableOptions = {
-    tableName: 'products',
+    tableName: 'orders',
   }
   
   @Table(tableOptions)

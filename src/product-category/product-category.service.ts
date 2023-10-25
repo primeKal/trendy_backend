@@ -17,7 +17,9 @@ export class ProductCategoryService {
         });
       }
       async createProductCategory(createProductCategoryDto): Promise<ProductCategory> {
+        console.log("creating product categoryyyyy")
         let newProductCategory = await this.productCategoryRepository.create<ProductCategory>(createProductCategoryDto);
+        console.log("created")
         let products = await this.productsService.getProductsByIds(createProductCategoryDto.productIds)
         await newProductCategory.$set('products', products)
         return newProductCategory

@@ -19,7 +19,7 @@ export class ProductController {
           return this.productService.getAllProducts();
         }
     
-        @Get()
+        @Get(':id')
         @ApiProperty()
         public async getAProduct(@Param('id') id: number): Promise<Product>{
           return this.productService.getOneProductById(id);

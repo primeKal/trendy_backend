@@ -18,7 +18,7 @@ import { User } from 'src/user/user.entity';
   // import { Socialmedia } from 'src/socialmedia/socialmedia.entity';
   
   const tableOptions = {
-    tableName: 'products',
+    tableName: 'product',
   }
   
   @Table(tableOptions)

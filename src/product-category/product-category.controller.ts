@@ -15,7 +15,7 @@ export class ProductCategoryController {
       return this.productCategoryService.getAllProductCategories();
     }
 
-    @Get()
+    @Get(':id')
     @ApiProperty()
     public async getAProductCategory(@Param('id') id: number): Promise<ProductCategory>{
       return this.productCategoryService.getOneProductCategoryById(id);

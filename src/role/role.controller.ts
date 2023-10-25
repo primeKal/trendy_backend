@@ -16,7 +16,7 @@ export class RoleController {
       return this.roleService.getAllRoles();
     }
 
-    @Get()
+    @Get(':id')
     @ApiProperty()
     public async getARole(@Param('id') id: number): Promise<Role>{
       return this.roleService.getOneRoleById(id);

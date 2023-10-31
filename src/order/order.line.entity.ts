@@ -54,7 +54,6 @@ import { Product } from 'src/product/product.entity';
   
     @Column({
       allowNull: false,
-      unique: true
     })
     quantity: number;
   

@@ -36,4 +36,8 @@ export class OrderController {
     public async deleteOrder(@Body() id): Promise<void>{
       return this.orderService.deleteOrder(id);
     }
+    @Get('ByUser/:id')
+    public async getOrdersByUser(@Param('id') id: number): Promise<[Order]>{
+      return this.orderService.getOrdersByUser(id);
+    }
 }

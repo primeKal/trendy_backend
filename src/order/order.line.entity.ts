@@ -12,17 +12,16 @@ import {
     ForeignKey,
     BelongsToMany,
   } from 'sequelize-typescript';
-import { ProductCategory, ProductCategoryProduct } from 'src/product-category/product.category.entity';
-import { Role } from 'src/role/role.entity';
 import { User } from 'src/user/user.entity';
-  // import { Socialmedia } from 'src/socialmedia/socialmedia.entity';
+import { Order } from './order.entity';
+import { Product } from 'src/product/product.entity';
   
   const tableOptions = {
-    tableName: 'product',
+    tableName: 'order_lines',
   }
   
   @Table(tableOptions)
-  export class Product extends Model<Product> {
+  export class OrderLine extends Model<OrderLine> {
     @Column({
       type: DataType.BIGINT,
       allowNull: false,
@@ -38,9 +37,14 @@ import { User } from 'src/user/user.entity';
     name: string;
   
     @Column({
-      allowNull: false,
+      allowNull: true,
     })
-    price: number;
+    totalPrice: number;
+
+    @Column({
+        allowNull: false,
+      })
+    singlePrice: number;
   
     @Column({
       allowNull: true,
@@ -52,11 +56,6 @@ import { User } from 'src/user/user.entity';
       allowNull: false,
       unique: true
     })
-    uniqueCode: string;
-  
-    @Column({
-      allowNull: false,
-    })
     quantity: number;
   
     @Column({
@@ -65,15 +64,6 @@ import { User } from 'src/user/user.entity';
     })
     isActive: boolean;
   
-    @Column({
-      allowNull: true,
-    })
-    sold: string;
-  
-    @Column({
-      allowNull: true,
-    })
-    imageUrl: string;
   
     @Column({
       defaultValue: 0
@@ -89,6 +79,7 @@ import { User } from 'src/user/user.entity';
   
     // forign keys
 
+    //created by user
     @ForeignKey(() => User)
     @Column({
       type: DataType.BIGINT
@@ -99,7 +90,27 @@ import { User } from 'src/user/user.entity';
     @ApiProperty({ type : User })
     user: User;
 
-    @BelongsToMany(() => ProductCategory, () => ProductCategoryProduct)
-    @ApiProperty({ type: () => [ProductCategory] })
-    productCategories: Product[];
+    // order 
+    @ForeignKey(() => Order)
+    @Column({
+      type: DataType.BIGINT
+    })
+    orderId: number;
+  
+    @BelongsTo(() => Order)
+    @ApiProperty({ type : Order })
+    order: Order;
+
+    // product id
+    @ForeignKey(() => Product)
+    @Column({
+      type: DataType.BIGINT
+    })
+    productId: number;
+  
+    @BelongsTo(() => Product)
+    @ApiProperty({ type : Product })
+    product: Product;
+
+
   }

@@ -1,29 +1,35 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ORDER_REPOSITORY } from 'src/utils/constants';
+import { ORDER_LINE_REPOSITORY, ORDER_REPOSITORY } from 'src/utils/constants';
 import { Order } from './order.entity';
 import { OrderDto } from './dto/order.dto';
 import { Op } from 'sequelize';
+import { OrderLine } from './order.line.entity';
 
 @Injectable()
 export class OrderService {
-    constructor(@Inject(ORDER_REPOSITORY) private readonly orderRepository: typeof Order){
+    constructor(@Inject(ORDER_REPOSITORY) private readonly orderRepository: typeof Order,
+                @Inject(ORDER_LINE_REPOSITORY) private readonly orderLineRepository){
     }
     async getAllOrders(): Promise<Order[]> {
         return await this.orderRepository.findAll<Order>({
-          // include: { model: Socialmedia, as: 'socialmedias' }
+          include: [OrderLine]
         });
       }
-      async createOrder(createOrderDto: OrderDto): Promise<Order> {
-        return await this.orderRepository.create<Order>(createOrderDto);
+      async createOrder(createOrderDto: any): Promise<Order> {
+
+        return await this.orderRepository.create<Order>(createOrderDto, {
+          include: [OrderLine]
+        });
       }
       async getOneOrderById(id: number): Promise<Order> {
         return await this.orderRepository.findOne({
           where: {
             id: id
-          }
+          },
+          include: [OrderLine]
         })
       }
-      async editOrder(editOrder: OrderDto): Promise<Order> {
+      async editOrder(editOrder: any): Promise<Order> {
         var toEditOrder = await this.orderRepository.findByPk(editOrder.id);
         try {
     
@@ -40,5 +46,16 @@ export class OrderService {
       }
       async getOrdersByIds(ids:Array<number>) {
         return await this.orderRepository.findAll({ where: { id: { [Op.in]: ids } }});
+    }
+    async createOrderLines(orderlines : any){
+      var result = this.orderLineRepository.create(orderlines);
+    }
+    async getOrdersByUser(userId: number): Promise<any>{
+      return this.orderRepository.findAll({
+        where: {
+          userId: userId
+        },
+        include: [OrderLine]
+      })
     }
 }

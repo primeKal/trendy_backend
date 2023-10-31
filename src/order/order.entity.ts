@@ -1,98 +1,98 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    Table,
-    Column,
-    Model,
-    DataType,
-    CreatedAt,
-    UpdatedAt,
-    DeletedAt,
-    HasMany,
-    BelongsTo,
-    ForeignKey,
-    BelongsToMany,
-  } from 'sequelize-typescript';
+  Table,
+  Column,
+  Model,
+  DataType,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+  HasMany,
+  BelongsTo,
+  ForeignKey,
+  BelongsToMany,
+} from 'sequelize-typescript';
 import { User } from 'src/user/user.entity';
-  
-  const tableOptions = {
-    tableName: 'orders',
-  }
-  
-  @Table(tableOptions)
-  export class Order extends Model<Order> {
-    @Column({
-      type: DataType.BIGINT,
-      allowNull: false,
-      autoIncrement: true,
-      unique: true,
-      primaryKey: true,
-    })
-    public id: number;
-  
-    @Column({
-      allowNull: false,
-    })
-    name: string;
-  
-    @Column({
-      allowNull: false,
-    })
-    totalPrice: number;
+import { OrderLine } from './order.line.entity';
 
-    @Column({
-        allowNull: false,
-      })
-    totalTax: number;
-  
-    @Column({
-      allowNull: true,
-    })
-    currency: string;
-  
-  
-    @Column({
-      allowNull: false,
-      unique: true
-    })
-    uniqueCode: string;
-  
-    @Column({
-      allowNull: false,
-      defaultValue:true
-    })
-    isActive: boolean;
-  
-    @Column({
-      allowNull: false,
-      defaultValue : false
-    })
-    success: string;
-  
-    @Column({
-      defaultValue: 0
-    })
-    linkCount: number;
-  
-  
-    @CreatedAt public createdAt: Date;
-  
-    @UpdatedAt public updatedAt: Date;
-  
-    @DeletedAt public deletedAt: Date;
-  
-    // forign keys
+const tableOptions = {
+  tableName: 'orders',
+}
 
-    @ForeignKey(() => User)
-    @Column({
-      type: DataType.BIGINT
-    })
-    userId: number;
-  
-    @BelongsTo(() => User)
-    @ApiProperty({ type : User })
-    user: User;
+@Table(tableOptions)
+export class Order extends Model<Order> {
+  @Column({
+    type: DataType.BIGINT,
+    allowNull: false,
+    autoIncrement: true,
+    unique: true,
+    primaryKey: true,
+  })
+  public id: number;
 
-    // @BelongsToMany(() => ProductCategory, () => ProductCategoryProduct)
-    // @ApiProperty({ type: () => [ProductCategory] })
-    // productCategories: Product[];
-  }
+  @Column({
+    allowNull: false,
+  })
+  name: string;
+
+  @Column({
+    allowNull: false,
+  })
+  totalPrice: number;
+
+  @Column({
+    allowNull: false,
+  })
+  totalTax: number;
+
+  @Column({
+    allowNull: true,
+  })
+  currency: string;
+
+
+  @Column({
+    allowNull: true,
+  })
+  uniqueCode: string;
+
+  @Column({
+    allowNull: false,
+    defaultValue: true
+  })
+  isActive: boolean;
+
+  @Column({
+    allowNull: false,
+    defaultValue: false
+  })
+  success: string;
+
+  @Column({
+    defaultValue: 0
+  })
+  linkCount: number;
+
+
+  @CreatedAt public createdAt: Date;
+
+  @UpdatedAt public updatedAt: Date;
+
+  @DeletedAt public deletedAt: Date;
+
+  // forign keys
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.BIGINT
+  })
+  userId: number;
+
+  @BelongsTo(() => User)
+  @ApiProperty({ type: User })
+  user: User;
+
+  @HasMany(() => OrderLine)
+  orderlines: OrderLine[]
+
+}

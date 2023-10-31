@@ -10,6 +10,7 @@ import {
   HasMany,
   BelongsToMany,
 } from 'sequelize-typescript';
+import { Order } from 'src/order/order.entity';
 import { Product } from 'src/product/product.entity';
 import { Role, UserRole } from 'src/role/role.entity';
 // import { Role, UserRole } from 'src/role/role.entity';
@@ -106,5 +107,8 @@ export class User extends Model<User> {
   @BelongsToMany(() => Role, ()=> UserRole)
   @ApiProperty({ type: () => [Role] })
   roles: Role[];
+
+  @HasMany(() => Order)
+  orders: Order[]
 
 }

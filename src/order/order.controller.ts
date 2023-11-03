@@ -1,15 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { Order } from './order.entity';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
 import { OrderDto } from './dto/order.dto';
+import { JwtAuthGurad } from 'src/auth/guards/jwtAuthGuard';
 
 @ApiTags('Orders')
 @Controller('order')
+@UseGuards(JwtAuthGurad)
 export class OrderController {
     constructor(private orderService : OrderService){
 
     }
+    
+    @UseGuards(JwtAuthGurad)
     @Get()
     public async getOrders(): Promise<Order[]> {
       return this.orderService.getAllOrders();

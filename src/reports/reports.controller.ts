@@ -2,10 +2,11 @@ import { Controller, Get, Inject, Param, Req, UseGuards } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { Order } from 'src/order/order.entity';
 import { JwtAuthGurad } from 'src/auth/guards/jwtAuthGuard';
+import { ApiTags } from '@nestjs/swagger';
 
 
 
-
+@ApiTags('Reports')
 @UseGuards(JwtAuthGurad)
 @Controller('reports')
 export class ReportsController {
